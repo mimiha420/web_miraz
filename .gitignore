@@ -1,0 +1,22 @@
+# Graphify (graf kodu, generowany lokalnie)
+graphify-out/
+
+# Instalatory i pliki binarne programów (nie są częścią strony)
+*.exe
+*.msi
+*.zip
+
+# Zmienne środowiskowe / sekrety
+.env
+.env.*
+!.env.example
+
+# Pliki systemowe
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Edytory
+.vscode/*
+!.vscode/extensions.json
+.idea

@@ -1,0 +1,66 @@
+.scene-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050505;
+  z-index: 9999;
+  overflow: hidden;
+  /* Płynny fade połączony z rozmyciem */
+  transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 2s cubic-bezier(0.16, 1, 0.3, 1), 
+              visibility 2s;
+  opacity: 1;
+  filter: blur(0px);
+  visibility: visible;
+}
+
+.scene-loader-overlay.fade-out {
+  opacity: 0;
+  /* W momencie znikania mgła dodatkowo lekko się "rozmywa" i rozchodzi */
+  filter: blur(20px);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.fog-layer {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200vw;
+  height: 200vh;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.fog-1 {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(5, 5, 5, 0) 65%);
+  animation: move-fog-1 20s ease-in-out infinite alternate, pulse-fog-1 8s ease-in-out infinite;
+}
+
+.fog-2 {
+  background-image: radial-gradient(circle, rgba(0, 255, 204, 0.06) 0%, rgba(5, 5, 5, 0) 70%);
+  animation: move-fog-2 25s ease-in-out infinite alternate, pulse-fog-2 10s ease-in-out infinite;
+}
+
+@keyframes move-fog-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-10%, 12%) scale(1.2); }
+}
+
+@keyframes move-fog-2 {
+  0% { transform: translate(0, 0) scale(1.2); }
+  100% { transform: translate(12%, -10%) scale(1); }
+}
+
+/* Dodatkowe delikatne falowanie gęstości (żeby żyło) */
+@keyframes pulse-fog-1 {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulse-fog-2 {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}

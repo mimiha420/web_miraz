@@ -1,0 +1,306 @@
+.infokids {
+  --ik-ink: #0a4668;
+  --ik-ink-soft: #1d5f84;
+  --ik-aqua: #00a6e6;
+  --ik-aqua-light: #8fe6ff;
+  --ik-green: #5fd16f;
+  
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  
+  width: 100vw;
+  max-width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+  border-radius: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+
+  background: linear-gradient(180deg, #bdeeff 0%, #7fd3f2 55%, #4fb8e6 100%);
+  box-shadow:
+    0 24px 60px rgba(0, 110, 170, 0.35),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -30px 60px rgba(0, 150, 220, 0.25);
+  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  color: var(--ik-ink);
+}
+
+.infokids .infokids__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  display: block;
+}
+
+.infokids .infokids__shine {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 55% at 50% -12%, rgba(255, 255, 255, 0.75), transparent 60%),
+    linear-gradient(180deg, transparent 60%, rgba(0, 120, 190, 0.22));
+}
+
+.infokids .infokids__content {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Izolacja okienka w Infokids */
+.infokids .retro-window {
+  width: 100%;
+  max-width: none;
+  background: rgba(235, 245, 255, 0.85);
+  border: 2px solid #0055ea;
+  border-radius: 8px 8px 4px 4px;
+  box-shadow: 
+    3px 3px 12px rgba(0, 60, 130, 0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.infokids .retro-titlebar {
+  background: linear-gradient(180deg, #3a6ea5 0%, #104a8e 100%);
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #002266;
+}
+
+.infokids .retro-title {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px #001133;
+}
+
+.infokids .retro-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.infokids .retro-btn {
+  background: linear-gradient(180deg, #efeff7 0%, #d5d5ed 100%);
+  border: 1px solid #002266;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  line-height: 13px;
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff;
+}
+
+.infokids .retro-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infokids .infokids__pill {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(180deg, #3a8ee6 0%, #1850c0 100%);
+  border: 1px solid #002266;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
+  width: fit-content;
+}
+
+.infokids .infokids__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  font-weight: 800;
+  color: #053a5a;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.infokids .infokids__lead {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #0b4262;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 12px 16px;
+  border: 1px inset rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+}
+
+.infokids .infokids__subtitle {
+  margin: 12px 0 4px;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-weight: bold;
+  color: #04507c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Slider z efektem wodnym */
+.infokids .water-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.infokids .water-slide-card {
+  flex: 1;
+  transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+}
+
+@keyframes waterRippleEffect {
+  0% {
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.97) translateY(6px);
+    filter: blur(6px) saturate(1.4);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+.infokids .water-ripple {
+  animation: waterRippleEffect 0.5s ease-in-out;
+}
+
+.infokids .retro-slider-btn {
+  background: linear-gradient(180deg, #3a6ea5 0%, #104a8e 100%);
+  color: #fff;
+  border: 2px solid #002266;
+  font-size: 1.1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 40, 90, 0.3), inset 1px 1px 0 rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.infokids .retro-slider-btn:hover {
+  background: linear-gradient(180deg, #4c82bc 0%, #185ac2 100%);
+}
+
+.infokids .retro-slider-btn:active {
+  transform: scale(0.95);
+  box-shadow: inset 2px 2px 4px rgba(0, 20, 60, 0.5);
+}
+
+.infokids .slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+.infokids .slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #003366;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.infokids .slider-dot.active {
+  background: linear-gradient(180deg, #00a6e6 0%, #0a4668 100%);
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(0, 166, 230, 0.8), inset 1px 1px 2px #fff;
+}
+
+.infokids .infokids__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.infokids .infokids__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #123f5b;
+}
+
+.infokids .infokids__bubble {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #00a6e6 70%, #0a4668 100%);
+  border: 1px solid #003366;
+}
+
+.infokids .infokids__callout {
+  position: relative;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  line-height: 1.6;
+  color: #064a45;
+  background: linear-gradient(120deg, rgba(220, 255, 235, 0.9), rgba(180, 240, 210, 0.8));
+  border: 2px solid #28a745;
+  box-shadow: 2px 2px 10px rgba(0, 100, 50, 0.15);
+}
+
+.infokids .infokids__note {
+  margin: 0;
+  padding: 14px 18px;
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #1b4a66;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px dashed #7fa6c2;
+}
+
+@media (max-width: 760px) {
+  .infokids .water-slider-wrapper {
+    gap: 6px;
+  }
+  .infokids .retro-slider-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,157 @@
+.tv-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #050505;
+}
+
+.tv-webgl-layer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+.tv-css-layer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Zmniejszone okno z wielowarstwowymi ramkami w odcieniach niebieskiego */
+.tv-contact-screen {
+  position: relative;
+  width: 520px; /* Zmniejszona szerokość okna */
+  background: #0f172a;
+  border: 2px solid #1e40af;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace, 'Segoe UI', sans-serif;
+  pointer-events: auto;
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.7);
+}
+
+/* Pierwszy dodatkowy border (::before) – środkowa ramka */
+.tv-contact-screen::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid #2563eb;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Drugi dodatkowy border (::after) – zewnętrzna ciemnoniebieska ramka */
+.tv-contact-screen::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 2px solid #1e3a8a;
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* Niebieski pasek tytułowy okna */
+.tv-contact-screen h2 {
+  background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+  color: #ffffff;
+  font-size: 13px;
+  margin: 0;
+  padding: 8px 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #1e3a8a;
+  text-transform: uppercase;
+}
+
+/* Wnętrze z efektem starego ekranu CRT (scanlines) i mniejszymi odstępami */
+.tv-form-group {
+  padding: 20px 24px;
+  background: #f8fafc;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  background-image: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.03) 50%
+  );
+  background-size: 100% 4px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.tv-description {
+  color: #0f172a;
+  font-size: 13px; /* Nieco mniejsza, czytelna czcionka dopasowana do mniejszego kontenera */
+  line-height: 1.5;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tv-description strong {
+  color: #1d4ed8;
+}
+
+.tv-buttons-container {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+  background: #f8fafc;
+}
+
+/* Retro przyciski */
+.tv-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #1e40af;
+  border-radius: 0px; 
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.05s ease;
+  text-align: center;
+  box-shadow: 2px 2px 0px #1e40af;
+}
+
+.tv-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #1e40af;
+}
+
+.tv-btn-full {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.tv-btn-full:hover {
+  background: #dbeafe;
+}
+
+.tv-btn-clean {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #1e3a8a;
+  box-shadow: 2px 2px 0px #1e3a8a;
+}
+
+.tv-btn-clean:hover {
+  background: #1d4ed8;
+}

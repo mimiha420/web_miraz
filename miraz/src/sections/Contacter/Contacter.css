@@ -1,0 +1,221 @@
+/* --- WINDOWS XP / RETRO SYSTEM STYLE --- */
+
+.aero-contacter-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3a6ea5;
+  background: radial-gradient(circle, #5b9bd5 0%, #2a52be 100%);
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* Subtelny deseń w tle */
+.aero-contacter-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+
+/* Główny kontener */
+.aero-contacter-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1050px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+/* Lewa strona - styl panelu systemowego */
+.aero-info-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.aero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: #ece9d8;
+  border: 1px solid #7f9db9;
+  border-radius: 3px;
+  color: #002366;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: fit-content;
+  box-shadow: inset 1px 1px 0 #ffffff;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #008000;
+  border-radius: 50%;
+}
+
+.aero-title {
+  font-size: 2.8rem;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 1.5rem 0 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.gradient-text {
+  color: #fffbbf;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.aero-description {
+  color: #e2efff;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Prawa strona - karty stylizowane na okna dialogowe Windows XP */
+.aero-options-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.aero-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Karta jako okno systemowe */
+.aero-option-card {
+  position: relative;
+  background: #ece9d8;
+  border: 2px solid;
+  border-color: #ffffff #003399 #003399 #ffffff;
+  border-radius: 6px;
+  padding: 2rem 1.25rem 1.25rem 1.25rem;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.1s ease;
+}
+
+/* Pasek tytułowy okna XP na górze karty */
+.aero-glass-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(180deg, #0058e6 0%, #3a93ff 8%, #0058e6 50%, #0038b8 100%);
+  border-radius: 4px 4px 0 0;
+  pointer-events: none;
+}
+
+.aero-option-card:hover {
+  border-color: #ffffff #002277 #002277 #ffffff;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.card-number {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #0058e6;
+  background: #d4d0c8;
+  padding: 2px 6px;
+  border: 1px inset #ffffff;
+  border-radius: 2px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: #002277;
+  margin: 0.4rem 0 0.3rem;
+  font-weight: bold;
+}
+
+.card-desc {
+  color: #333333;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #d4d0c8;
+  padding-top: 0.75rem;
+}
+
+.card-tag {
+  font-size: 0.75rem;
+  color: #0058e6;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Panel "W przygotowaniu" w stylu powiadomienia systemowego */
+.aero-coming-soon-panel {
+  position: relative;
+  background: #ece9d8;
+  border: 1px solid #919b9c;
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  box-shadow: inset 1px 1px 0 #ffffff;
+}
+
+.coming-soon-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.35rem;
+}
+
+.coming-soon-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #b8860b;
+  letter-spacing: 0.5px;
+}
+
+.coming-soon-text {
+  color: #444444;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.coming-soon-text span {
+  color: #b8860b;
+  padding: 0 4px;
+}
+
+/* Responsywność */
+@media (max-width: 850px) {
+  .aero-contacter-container {
+    grid-template-columns: 1fr;
+  }
+  .aero-title {
+    font-size: 2.2rem;
+  }
+}

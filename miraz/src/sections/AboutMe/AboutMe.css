@@ -1,0 +1,200 @@
+:root {
+  --pal-mint: #80CFBC;
+  --pal-teal: #2F9E95;
+  --pal-light: #FFF0FF;
+  --pal-pink: #FFC2DA;
+  --pal-coral: #F77979;
+
+  /* OPCJA A (Domyślna): Szlachetna, złamana ciepła biel – kontrastuje z kartami */
+  --bg-main: #FAF8F5; 
+  
+  /* OPCJA B (Alternatywa): Bardzo jasny, chłodny miętowy odcień
+  --bg-main: #F2F9F7; 
+  */
+
+  --card-bg: #FFFFFF;
+  --text-main: #2A3332;
+  --text-muted: var(--pal-teal);
+  
+  --radius-lg: 0px;
+  --radius-sm: 0px;
+  
+  --shadow-sharp: 4px 4px 0px var(--pal-mint);
+  --shadow-sharp-accent: 4px 4px 0px var(--pal-coral);
+  --border-stroke: 2px solid var(--pal-teal);
+}
+
+.about-me {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  padding: 80px 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.65;
+}
+
+.about-me__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Lewa strona / Karta profilowa */
+.about-me__profile-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: var(--shadow-sharp);
+  border: var(--border-stroke);
+  position: sticky;
+  top: 40px;
+}
+
+.about-me__avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px;
+}
+
+.about-me__avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background-color: var(--pal-pink);
+  border: 2px solid var(--pal-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--pal-teal);
+  box-shadow: 3px 3px 0px var(--pal-coral);
+}
+
+.about-me__badge {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--pal-teal);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 0;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--pal-teal);
+}
+
+.about-me__name {
+  font-size: 1.75rem;
+  margin: 16px 0 4px;
+  color: var(--pal-teal);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+.about-me__role {
+  font-size: 0.9rem;
+  color: var(--pal-coral);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.about-me__quote {
+  margin: 0;
+  padding: 16px;
+  background: var(--pal-light);
+  border-radius: var(--radius-sm);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  line-height: 1.5;
+  border: 1px solid var(--pal-pink);
+  border-left: 4px solid var(--pal-coral);
+}
+
+/* Prawa strona / Treść */
+.about-me__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.about-me__block {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sharp);
+  border: var(--border-stroke);
+}
+
+.about-me__block--highlight {
+  background: #ffffff;
+  border-left: 6px solid var(--pal-coral);
+  box-shadow: var(--shadow-sharp-accent);
+}
+
+.about-me__section-title {
+  font-size: 1.3rem;
+  color: var(--pal-teal);
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.about-me__text {
+  margin: 0 0 14px;
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.about-me__text:last-child {
+  margin-bottom: 0;
+}
+
+.about-me__list {
+  margin: 12px 0 20px;
+  padding-left: 20px;
+  color: var(--text-main);
+  list-style-type: square;
+}
+
+.about-me__list li {
+  margin-bottom: 8px;
+}
+
+.about-me__list li::marker {
+  color: var(--pal-coral);
+}
+
+.about-me__footer-note {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 2px solid var(--pal-mint);
+}
+
+/* RWD */
+@media (max-width: 868px) {
+  .about-me__container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .about-me__profile-card {
+    position: static;
+  }
+}

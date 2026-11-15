@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pracownia Psychologiczna Miraż</title>
+
+  <!-- Biblioteki zewnętrzne: GSAP i Curtains.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+  <script src="https://www.curtainsjs.com/build/curtains.min.js"></script>
+
+  <style>
+    /* Reset & Podstawowe Zmienne */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-subtle: #121212;
+      --border: #262626;
+      --text: #ededed;
+      --text-muted: #a3a3a3;
+      --accent: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Główny kontener strony na pełną szerokość z opcjonalnym obramowaniem w stylu Grid */
+    .lp-container {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* WARSTWA TŁA WEBGL - Pełny ekran za górną sekcją Hero */
+    .lp-bg-visual {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .plane {
+      width: 100%;
+      height: 100%;
+    }
+
+    .plane img {
+      display: none;
+    }
+
+    /* Wyszczególnienie warstw nad tłem WebGL */
+    .lp-header,
+    .lp-hero-section,
+    .lp-section,
+    .lp-footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER / MENU NAWIGACYJNE */
+    .lp-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(12px);
+    }
+
+    .lp-logo {
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .nav-main ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-main li {
+      position: relative;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      overflow: hidden;
+    }
+
+    .nav-main a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-main .first-menu {
+      display: block;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .nav-main .second-menu {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.4s;
+    }
+
+    .nav-main li:hover .first-menu {
+      color: transparent;
+    }
+
+    .nav-main li:hover .second-menu {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* SEKCJA HERO / WSTĘP DO MIRAŻU */
+    .lp-hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 60px;
+      background: linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.9) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lp-hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .lp-tag {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .lp-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .lp-subtitle {
+      font-size: 1.35rem;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.4;
+      border-left: 2px solid var(--accent);
+      padding-left: 16px;
+    }
+
+    .lp-description {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lp-actions {
+      display: flex;
+      gap: 16px;
+      padding-top: 16px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      padding: 14px 28px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #d4d4d4;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    /* OGÓLNY STYL SEKCJI W GRIDZIE */
+    .lp-section {
+      width: 100%;
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 48px;
+    }
+
+    .lp-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      margin-bottom: 48px;
+    }
+
+    .section-head h2 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-head p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* BENTO GRID / LISTY WSKAZAŃ DO KONSULTACJI */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .lp-card-box {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lp-card-box h3 {
+      font-size: 1.4rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .lp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lp-list li {
+      position: relative;
+      padding-left: 20px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .lp-list li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* SEKCJA OFERTA (Siatka 3-kolumnowa) */
+    .lp-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .lp-card {
+      background: var(--bg-subtle);
+      padding: 36px 28px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+    }
+
+    .lp-card-num {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .lp-card h3 {
+      font-size: 1.25rem;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .lp-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* SEKCJA O NAS (Julia Sabura) */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 4fr 8fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-profile {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .about-profile h3 {
+      font-size: 1.5rem;
+    }
+
+    .about-profile .role {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .about-text {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* CENNIK */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .pricing-card {
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .pricing-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    /* FOOTER */
+    .lp-footer {
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background-color: var(--bg);
+    }
+
+    /* RESPONSYWNOŚĆ */
+    @media (max-width: 900px) {
+      .grid-2col,
+      .about-grid,
+      .pricing-grid,
+      .lp-bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lp-title {
+        font-size: 2.5rem;
+      }
+
+      .lp-header {
+        padding: 0 20px;
+      }
+
+      .nav-main ul {
+        gap: 16px;
+      }
+
+      .lp-hero-section,
+      .lp-section {
+        padding: 80px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lp-container">
+    
+    <!-- Tło WebGL rozciągnięte na pełną szerokość i wysokość tła sekcji Hero -->
+    <div class="lp-bg-visual">
+      <div id="canvas"></div>
+      <div class="plane">
+        <img class="texture" src="assets/foregrounds_36.png" crossorigin="anonymous" />
+        <img class="texture" src="https://images.unsplash.com/photo-1533450718592-29d45635f0a9?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous" />
+        <img class="texture" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous" />
+        <img class="texture" src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous" />
+      </div>
+    </div>
+
+    <!-- Górny Kontener: Menu na pełną szerokość -->
+    <header class="lp-header">
+      <div class="lp-logo">MIRAŻ</div>
+      <nav class="nav-main">
+        <ul>
+          <li><a href="#o-marce"><span class="first-menu">O MIRAŻU</span><span class="second-menu">O MIRAŻU</span></a></li>
+          <li><a href="#kiedy-pomoc"><span class="first-menu">KONSULTACJE</span><span class="second-menu">KONSULTACJE</span></a></li>
+          <li><a href="#oferta"><span class="first-menu">OFERTA</span><span class="second-menu">OFERTA</span></a></li>
+          <li><a href="#o-nas"><span class="first-menu">O NAS</span><span class="second-menu">O NAS</span></a></li>
+          <li><a href="#cennik"><span class="first-menu">CENNIK</span><span class="second-menu">CENNIK</span></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Sekcja Główna (Hero / Przedstawienie marki) -->
+    <section id="o-marce" class="lp-hero-section">
+      <div class="lp-hero-content">
+        <span class="lp-tag">// Pracownia Psychologiczna</span>
+        <h1 class="lp-title">Pracownia Psychologiczna Miraż</h1>
+        <p class="lp-subtitle">
+          Miraż — zjawisko, w którym to co widzimy, nie odpowiada temu, co rzeczywiście znajduje się przed nami.
+        </p>
+        <div class="lp-description">
+          <p>Zajmujemy się tym, jak umysł konstruuje nasze doświadczenie rzeczywistości. Nasz umysł nie jest biernym odbiorcą świata i nie poznaje go w sposób całkowicie obiektywny.</p>
+          <p>To, czego doświadczamy, jest wypadkową czułości naszego układu nerwowego, sposobu w jaki filtrujemy informacje, a także wpływu wcześniejszych doświadczeń, traum, oczekiwań i emocji. Przeszłe doświadczenia tworzą soczewkę, przez którą interpretujemy otaczający świat.</p>
+          <p>Miraż powstał z fascynacji tym, co znajduje się pomiędzy rzeczywistością a jej subiektywnym doświadczeniem. Zrozumienie mechanizmów własnego funkcjonowania może stać się początkiem zmiany — naszej relacji ze światem, z innymi i przede wszystkim z samym sobą.</p>
+        </div>
+        <div class="lp-actions">
+          <a href="#kiedy-pomoc" class="btn-primary">Sprawdź kiedy warto zgłosić się na poradę</a>
+          <a href="#cennik" class="btn-secondary">Zobacz cennik</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 2: Kiedy warto zgłosić się na poradę psychologiczną -->
+    <section id="kiedy-pomoc" class="lp-section">
+      <div class="lp-section-inner">
+        <div class="section-head">
+          <h2>Kiedy warto zgłosić się na poradę?</h2>
+          <p>Nie musisz czekać, aż trudności staną się bardzo nasilone. Konsultacja to okazja do przyjrzenia się temu, co przeżywasz.</p>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Wskazania dla dorosłych -->
+          <div class="lp-card-box">
+            <h3>Dla Ciebie / Dorosłych</h3>
+            <ul class="lp-list">
+              <li>Potrzebujesz lepiej zrozumieć siebie, swoje emocje lub codzienne trudności.</li>
+              <li>Doświadczasz przewlekłego stresu, napięcia, lęku lub obniżonego nastroju.</li>
+              <li>Masz trudności z wyrażaniem lub regulowaniem emocji oraz stawianiem granic.</li>
+              <li>Dostrzegasz powtarzające się schematy myślenia i zachowania, które blokują Twój potencjał.</li>
+              <li>Przechodzisz przez istotne zmiany życiowe — stratę, rozstanie lub inny kryzys.</li>
+              <li>Zmagasz się z niską samooceną, perfekcjonizmem lub nadmiernym samokrytycyzmem.</li>
+              <li>Podejrzewasz neuroatypowość lub masz diagnozę, ale ciężko Ci podporządkować codzienność swoim potrzebom.</li>
+              <li>Przez długi czas "maskowałeś się" i chcesz w końcu żyć w zgodzie ze sobą.</li>
+            </ul>
+          </div>
+
+          <!-- Wskazania dla dzieci i rodziców -->
+          <div class="lp-card-box">
+            <h3>W sprawie dziecka / Wsparcie rodzica</h3>
+            <ul class="lp-list">
+              <li>Zauważasz u dziecka intensywne reakcje emocjonalne, wybuchy złości lub trudności z samoregulacją.</li>
+              <li>Pojawia się nasilony lęk, wycofanie, smutek lub utrzymujące się rozdrażnienie.</li>
+              <li>Trudności w relacjach z rówieśnikami lub problemy z adaptacją w przedszkolu/szkole.</li>
+              <li>Problemy z koncentracją uwagi, impulsywnością lub silną wrażliwością na bodźce sensoryczne.</li>
+              <li>Trudności ze snem, nagłe zmiany zachowania lub niechęć do lubianych dotąd aktywności.</li>
+              <li>Gdy jako rodzic chcesz lepiej zrozumieć zachowanie dziecka, jego potrzeby rozwojowe i emocjonalne.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 3: Oferta -->
+    <section id="oferta" class="lp-section">
+      <div class="lp-section-inner">
+        <div class="section-head">
+          <h2>Oferta</h2>
+          <p>Dopasowane formy wsparcia psychologicznego.</p>
+        </div>
+
+        <div class="lp-bento-grid">
+          <div class="lp-card">
+            <span class="lp-card-num">01</span>
+            <div>
+              <h3>Psycholog na kółkach</h3>
+              <p>Psycholog z wygodnym dojazdem bezpośrednio do Twojego domu.</p>
+            </div>
+          </div>
+          <div class="lp-card">
+            <span class="lp-card-num">02</span>
+            <div>
+              <h3>Spotkanie Online</h3>
+              <p>Wygodna konsultacja psychologiczna z dowolnego miejsca.</p>
+            </div>
+          </div>
+          <div class="lp-card">
+            <span class="lp-card-num">03 (Wkrótce)</span>
+            <div>
+              <h3>Rozwój & Warsztaty</h3>
+              <p>Zajęcia TUS dla dzieci, warsztaty Mindfulness oraz spotkania stacjonarne.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 4: O nas -->
+    <section id="o-nas" class="lp-section">
+      <div class="lp-section-inner">
+        <div class="section-head">
+          <h2>O Nas</h2>
+          <p>Poznaj perspektywę i doświadczenie stojące za Pracownią Miraż.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-profile">
+            <h3>Julia Sabura</h3>
+            <span class="role">Psycholog</span>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Absolwentka studiów magisterskich o profilu praktycznym i specjalizacji klinicznej z psychoterapią na Uniwersytecie Papieskim Jana Pawła II w Krakowie.
+            </p>
+          </div>
+          <div class="about-text">
+            <p>Doświadczenie zdobywałam w Poradniach Psychologiczno-Pedagogicznych organizując zajęcia TUS, w poradni dla osób uzależnionych i współuzależnionych, w Szpitalu Specjalistycznym im. Jana Pawła II w Krakowie oraz Szpitalu Klinicznym im. dr. Józefa Babińskiego.</p>
+            <p>Bliskie jest mi łączenie wiedzy psychologicznej z kreatywnością. Organizowałam warsztaty mindfulness podczas Pejzaż Festiwalu oraz tworzę internetowe treści psychoedukacyjne.</p>
+            <p>W pracy stawiam nacisk na samo spotkanie z drugim człowiekiem — próbuję spojrzeć na świat z jego perspektywy. Szczególnie chciałabym pracować z osobami neuroatypowymi, które chcą lepiej zrozumieć swój sposób funkcjonowania zamiast wpisywać się w powszechne schematy.</p>
+            <p>W przyszłości planuję kontynuować kształcenie w ramach szkolenia psychoterapeutycznego w nurcie Gestalt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 5: Cennik -->
+    <section id="cennik" class="lp-section">
+      <div class="lp-section-inner">
+        <div class="section-head">
+          <h2>Cennik</h2>
+          <p>Przejrzyste warunki współpracy.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div>
+              <h3>Konsultacja Online / Na kółkach</h3>
+              <p style="color: var(--text-muted); margin-top: 8px;">Pierwsza konsultacja zapoznawcza i diagnostyczna.</p>
+            </div>
+            <div class="pricing-price">130 zł <span style="font-size: 1rem; font-weight: normal; color: var(--text-muted);">/ 45 min</span></div>
+          </div>
+
+          <div class="pricing-card">
+            <div>
+              <h3>Regularna Sesja Psychologiczna</h3>
+              <p style="color: var(--text-muted); margin-top: 8px;">Standardowa sesja indywidualna lub spotkanie z dojazdem.</p>
+            </div>
+            <div class="pricing-price">150 zł <span style="font-size: 1rem; font-weight: normal; color: var(--text-muted);">/ 60 min</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stopka -->
+    <footer class="lp-footer">
+      <div>© 2026 Pracownia Psychologiczna Miraż. Julia Sabura.</div>
+      <div>Status: System Online</div>
+    </footer>
+
+  </div>
+
+  <!-- SKRYPT ANIMACJI LOGIKI I WEBGL -->
+  <script>
+    const mathUtils = {
+      easeOutCubic: t => --t * t * t + 1
+    };
+
+    window.addEventListener("load", () => {
+      const navMain = [...document.querySelectorAll(".nav-main li")];
+      let currentIndex = 0;
+      let textureActive = null;
+      let nextTexture = null;
+      let start = performance.now();
+      let progress = false;
+
+      const createCanvas = () => {
+        const shader = {
+          vertex: `    
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            
+            attribute vec3 aVertexPosition;
+            attribute vec2 aTextureCoord;
+
+            uniform mat4 uMVMatrix;
+            uniform mat4 uPMatrix;
+
+            uniform mat4 textureActiveMatrix;
+            uniform mat4 nextTextureMatrix;
+
+            varying vec3 vVertexPosition;
+            varying vec2 vTextureActiveCoord;
+            varying vec2 vNextTextureCoord;
+
+            void main() {
+                vec3 vertexPosition = aVertexPosition;
+                gl_Position = uPMatrix * uMVMatrix * vec4(vertexPosition, 1.0);
+
+                vTextureActiveCoord = (textureActiveMatrix * vec4(aTextureCoord, 0., 1.)).xy;
+                vNextTextureCoord = (nextTextureMatrix * vec4(aTextureCoord, 0., 1.)).xy;
+                vVertexPosition = vertexPosition;
+            }`,
+          fragment: `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+
+            varying vec3 vVertexPosition;
+            varying vec2 vTextureActiveCoord;
+            varying vec2 vNextTextureCoord;
+
+            uniform float uProgress;
+            uniform sampler2D textureActive;
+            uniform sampler2D nextTexture;
+
+            void main(){
+                vec2 uv0 = vTextureActiveCoord;
+                vec2 uv1 = vNextTextureCoord;
+
+                float p = uProgress;
+               
+                vec4 disp0 = texture2D(textureActive, uv0);
+                vec4 disp1 = texture2D(nextTexture, uv1);
+                        
+                float t0 = p * (disp0.r * 0.2);
+                float t1 = (1. - p) * (disp1.r * 0.2);
+
+                vec4 color0 = texture2D(textureActive, vec2(uv0.x, uv0.y + t0)) * (1. - p);
+                vec4 color1 = texture2D(nextTexture, vec2(uv1.x, uv1.y - t1)) * p;
+
+                gl_FragColor = color0 + color1;        
+            }`
+        };
+
+        const webGLCurtain = new Curtains({ container: "canvas" });
+        const planeElement = document.getElementsByClassName("plane")[0];
+
+        const params = {
+          vertexShader: shader.vertex,
+          fragmentShader: shader.fragment,
+          widthSegments: 20,
+          heightSegments: 20,
+          uniforms: {
+            progress: {
+              name: "uProgress",
+              type: "1f",
+              value: 0
+            }
+          }
+        };
+
+        webGLCurtain.disableDrawing();
+        const plane = webGLCurtain.addPlane(planeElement, params);
+
+        if (plane) {
+          plane
+            .onReady(() => {
+              webGLCurtain.needRender();
+
+              textureActive = plane.createTexture({ sampler: "textureActive" });
+              nextTexture = plane.createTexture({ sampler: "nextTexture" });
+              
+              textureActive.setSource(plane.images[currentIndex]);
+
+              initEvents(webGLCurtain, plane);
+            })
+            .onRender(() => {
+              update(webGLCurtain, plane);
+            });
+        }
+      };
+
+      const update = (webGLCurtain, plane) => {
+        if (progress) {
+          const now = performance.now();
+          const time = Math.min(1, (now - start) / 800);
+          
+          plane.uniforms.progress.value = mathUtils.easeOutCubic(time);
+
+          if (time >= 1) {
+            webGLCurtain.disableDrawing();
+            textureActive.setSource(plane.images[currentIndex]);
+            plane.uniforms.progress.value = 0;
+            progress = false;
+          }
+        }
+      };
+
+      const onMouseOver = (webGLCurtain, plane, index) => {
+        if (index === currentIndex) return;
+        
+        webGLCurtain.enableDrawing();
+        currentIndex = index;
+        nextTexture.setSource(plane.images[currentIndex % plane.images.length]);
+
+        progress = true;
+        start = performance.now();
+      };
+
+      const initEvents = (webGLCurtain, plane) => {
+        navMain.forEach((li, i) => {
+          li.addEventListener("mouseenter", () => {
+            onMouseOver(webGLCurtain, plane, i);
+          });
+        });
+      };
+
+      const animateNav = () => {
+        if (typeof TweenMax !== "undefined") {
+          TweenMax.staggerFrom(
+            navMain,
+            0.8,
+            {
+              opacity: 0,
+              y: 20,
+              ease: Power2.easeOut
+            },
+            0.15
+          );
+        }
+      };
+
+      animateNav();
+      createCanvas();
+    });
+  </script>
+</body>
+</html>
