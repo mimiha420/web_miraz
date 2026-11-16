@@ -149,10 +149,10 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 14px; /* Zwiększone z 13px na 14px (lub np. 0.95rem) */
+  line-height: 1.5; /* Zwiększona interlinia dla lepszej czytelności */
   color: #111;
-  padding: 4px 6px;
+  padding: 6px 8px; /* Nieco większy padding, żeby tekst "oddychał" */
   border-radius: 2px;
 }
 
@@ -164,6 +164,7 @@
   color: #ff6600;
   font-size: 10px;
   margin-top: 3px;
+  flex-shrink: 0;
 }
 
 /* Footer Quote Box */
@@ -203,4 +204,113 @@
 .status-sec {
   border-left: 1px solid #aca899;
   padding-left: 10px;
+}
+
+/* ===== UKRYCIE SLIDERA NA PRZEGLĄDARCE ===== */
+.retro-mobile-only,
+.status-mobile {
+  display: none;
+}
+
+/* ===== TYLKO TELEFONY (<= 768px) ===== */
+@media (max-width: 768px) {
+  .retro-help-wrapper {
+    padding: 16px 8px;
+  }
+
+  .retro-window-body {
+    padding: 12px;
+    margin: 4px;
+  }
+
+  .retro-hero-banner {
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+
+  .retro-hero-banner h2 {
+    font-size: 17px;
+  }
+
+  .retro-lead-text {
+    font-size: 13px;
+  }
+
+  .retro-desktop-only,
+  .status-desktop {
+    display: none;
+  }
+
+  .retro-mobile-only {
+    display: block;
+    padding: 12px 10px;
+    margin-bottom: 16px;
+  }
+
+  .status-mobile {
+    display: inline;
+  }
+
+  .retro-slider-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .retro-slider-track {
+    display: flex;
+    transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .retro-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .retro-slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #dcd8ce;
+  }
+
+  .xp-nav-btn {
+    background: linear-gradient(180deg, #ffffff 0%, #ece9d8 85%, #d8d4c4 100%);
+    border: 1px solid #003c74;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    box-shadow: inset 1px 1px 0 #fff;
+  }
+
+  .xp-nav-btn:active {
+    background: #dcd8c8;
+  }
+
+  .retro-slider-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .retro-dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid #003c74;
+    background: #ffffff;
+    border-radius: 1px;
+    cursor: pointer;
+  }
+
+  .retro-dot.is-active {
+    background: #0055ea;
+  }
 }

@@ -111,7 +111,15 @@ function useUnderwater(containerRef, canvasRef) {
     if (!container || !canvas) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    // Przy ponownym montowaniu (StrictMode) canvas zwraca ten sam kontekst WebGL,
+    // który ma jeszcze ustawione FLIP_Y/PREMULTIPLY_ALPHA z poprzednich tekstur.
+    // Resetujemy je, inaczej three.js zgłasza błąd texImage3D przy starcie.
+    const gl = canvas.getContext("webgl2", { alpha: true, antialias: true });
+    if (gl) {
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+    }
+    const renderer = new THREE.WebGLRenderer({ canvas, context: gl ?? undefined, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
@@ -274,16 +282,16 @@ function useUnderwater(containerRef, canvasRef) {
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0 });
     io.observe(container);
 
-    const clock = new THREE.Clock();
+    const clock = new THREE.Timer();
     let raf = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       if (!visible) {
-        clock.getDelta();
+        clock.update();
         return;
       }
-      const dt = Math.min(clock.getDelta(), 0.05);
-      const t = clock.elapsedTime;
+      const dt = (clock.update(), Math.min(clock.getDelta(), 0.05));
+      const t = clock.getElapsed();
 
       if (!reduceMotion) {
         bgMat.uniforms.uTime.value = t;
@@ -347,7 +355,7 @@ function useUnderwater(containerRef, canvasRef) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  KOMPONENT GŁÓWNY Z SLIDEREM W STYLU WODNYM                         */
+/*  KOMPONENT GŁÓWNY Z SLIDEREM W STYLU WODNYm                         */
 /* ------------------------------------------------------------------ */
 export default function Infokids() {
   const containerRef = useRef(null);
@@ -356,6 +364,7 @@ export default function Infokids() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const touchStartX = useRef(null);
 
   const handlePrev = () => {
     if (animating) return;
@@ -371,6 +380,20 @@ export default function Infokids() {
     setTimeout(() => setAnimating(false), 500);
   };
 
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 45) {
+      if (diff > 0) handleNext();
+      else handlePrev();
+    }
+    touchStartX.current = null;
+  };
+
   const currentGroup = GROUPS[currentIndex];
 
   return (
@@ -383,7 +406,7 @@ export default function Infokids() {
         {/* Nagłówek retro */}
         <div className="retro-window">
           <div className="retro-titlebar">
-            <span className="retro-title">Yahoo! Messenger - Wsparcie Dziecka</span>
+            <span className="retro-title">Wsparcie Dziecka</span>
             <div className="retro-controls">
               <span className="retro-btn">_</span>
               <span className="retro-btn">□</span>
@@ -409,7 +432,11 @@ export default function Infokids() {
         </h3>
 
         {/* SLIDER W STYLU WODNYM */}
-        <div className="water-slider-wrapper">
+        <div 
+          className="water-slider-wrapper"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <button className="retro-slider-btn prev" onClick={handlePrev} title="Poprzedni">
             ◄
           </button>

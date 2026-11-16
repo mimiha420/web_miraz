@@ -152,8 +152,8 @@
   margin: 12px 0 4px;
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: bold;
-  color: #04507c;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: #ffffff;
+  text-shadow: 0 1px 0 #04507c;
 }
 
 /* Slider z efektem wodnym */
@@ -296,11 +296,10 @@
 
 @media (max-width: 760px) {
   .infokids .water-slider-wrapper {
-    gap: 6px;
+    gap: 0;
   }
+  /* Ukrycie bocznych strzałek w widoku mobilnym */
   .infokids .retro-slider-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 0.9rem;
+    display: none;
   }
 }

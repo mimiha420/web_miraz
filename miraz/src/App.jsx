@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Header from './sections/Header/Header';
 import LandingPage from './sections/LandingPage/LandingPage';
 import About from './sections/About/About';
@@ -11,32 +12,6 @@ import AboutMe from './sections/AboutMe/AboutMe';
 import Footer from './sections/Footer/Footer';
 
 function App() {
-  // Automatyczny Intersection Observer dla płynnego pojawiania się sekcji przy scrollu
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1, // Uruchamia się, gdy 10% sekcji pojawi się na ekranie
-    };
-
-    const handleIntersection = (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
-    const sections = document.querySelectorAll('.reveal-section');
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
-  }, []);
-
   return (
     <BrowserRouter>
       <div
@@ -45,47 +20,82 @@ function App() {
           width: '100%',
           minHeight: '100vh',
           overflowX: 'clip',
-          backgroundColor: '#d97736',
+          backgroundColor: '#0f172a', // Spójny ciemny granat pod Twoją nową wodę
           fontFamily: 'Open Sans, sans-serif',
         }}
       >
         <Header />
 
-        {/* Sekcja Startowa (Landing Page) */}
-        <section id="start" className="reveal-section">
+        {/* Sekcja Startowa (Landing Page) - od razu widoczna lub lekki fade */}
+        <motion.section
+          id="start"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
           <LandingPage />
-        </section>
-        <section id="info-one" className="reveal-section">
+        </motion.section>
+
+        {/* Kolejne sekcje z płynnym wjazdem przy scrollu (whileInView) */}
+        <motion.section
+          id="info-one"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <InfoOne />
-        </section>
-        <section id="help" className="reveal-section">
+        </motion.section>
+
+        <motion.section
+          id="help"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Help />
-        </section>
-        <section id="info-kids" className="reveal-section">
+        </motion.section>
+
+        <motion.section
+          id="info-kids"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Infokids />
-        </section>
-        <section id="contacter" className="reveal-section">
+        </motion.section>
+
+        <motion.section
+          id="contacter"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Contacter />
-        </section>
-        <section id="o-mnie" className="reveal-section">
+        </motion.section>
+
+        <motion.section
+          id="o-mnie"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <AboutMe />
-        </section>
-        <section id="kontakt" className="reveal-section">
+        </motion.section>
+
+        <motion.section
+          id="kontakt"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Footer />
-        </section>
-
-        {/* <section id="about" className="reveal-section">
-          <About />
-        </section> */}
-
-        {/* Sekcja O nas (About w stylu Zen Garden)
-        <section id="o-nas" className="reveal-section">
-          <About />
-        </section> */}
-        {/* Sekcja O nas (About w stylu Zen Garden) */}
-        {/* <section id="o-nas" className="reveal-section">
-          <About />
-        </section> */}
+        </motion.section>
 
       </div>
     </BrowserRouter>

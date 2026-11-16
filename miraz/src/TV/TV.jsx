@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -11,13 +11,30 @@ export default function TV({ onComplete }) {
   const cssLayerRef = useRef(null);
   const contactScreenRef = useRef(null);
 
+  // Wykrywanie urządzeń mobilnych (<= 768px)
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  );
+
+  // Nasłuchiwanie zmiany rozmiaru okna (np. obrót ekranu lub zwężenie okna przeglądarki)
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleMediaChange = (e) => setIsMobile(e.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleMediaChange);
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
+
+  // Inicjalizacja sceny 3D TYLKO na desktopie (!isMobile)
+  useEffect(() => {
+    if (isMobile) return;
     if (!webglLayerRef.current || !cssLayerRef.current || !contactScreenRef.current) return;
 
     let disposed = false;
     let animationFrameId;
-
-    console.log("🟢 [TV.jsx] Start inicjalizacji sceny 3D...");
+    let cssObjectRef = null;
+    let targetSizeRef = null;
 
     // 1. Sceny
     const scene = new THREE.Scene();
@@ -41,17 +58,16 @@ export default function TV({ onComplete }) {
     cssRenderer.setSize(width, height);
     cssRenderer.domElement.style.position = 'absolute';
     cssRenderer.domElement.style.top = '0';
+    cssRenderer.domElement.style.left = '0';
     cssRenderer.domElement.style.pointerEvents = 'none';
     cssLayerRef.current.appendChild(cssRenderer.domElement);
 
     // 4. Sterowanie OrbitControls (ZABLOKOWANE)
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enabled = false; // <-- CAŁKOWICIE BLOKUJE RUCH I OBRÓT KAMERY
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
+    controls.enabled = false;
     controls.target.set(0, 0, 0);
 
-    // 5. Oświetlenie studyjne + dodatkowe klimatyczne światła
+    // 5. Oświetlenie
     const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
     scene.add(ambientLight);
 
@@ -59,14 +75,24 @@ export default function TV({ onComplete }) {
     dirLight1.position.set(5, 5, 5);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x3b82f6, 2.0); // Delikatna niebieska poświata z boku
+    const dirLight2 = new THREE.DirectionalLight(0x3b82f6, 2.0);
     dirLight2.position.set(-5, -2, -3);
     scene.add(dirLight2);
 
-    // Dodatkowe światło punktowe skierowane centralnie na front telewizora
     const pointLight = new THREE.PointLight(0xffffff, 4.0, 10);
     pointLight.position.set(0, 1, 2);
     scene.add(pointLight);
+
+    const updateCSSObjectScale = () => {
+      if (!cssObjectRef || !targetSizeRef || !contactScreenRef.current) return;
+      const htmlElement = contactScreenRef.current;
+      const htmlWidth = htmlElement.offsetWidth || 520;
+      const htmlHeight = htmlElement.offsetHeight || 350;
+
+      const scaleX = targetSizeRef.x / htmlWidth;
+      const scaleY = targetSizeRef.y / htmlHeight;
+      cssObjectRef.scale.set(scaleX, scaleY, 1);
+    };
 
     // --- ŁADOWANIE MODELU TV.glb ---
     const loader = new GLTFLoader();
@@ -74,10 +100,8 @@ export default function TV({ onComplete }) {
       '/TV.glb',
       (gltf) => {
         if (disposed) return;
-        console.log("🎉 [TV.glb] Model pomyślnie wczytany:", gltf);
         const model = gltf.scene;
 
-        // Wyśrodkowanie geometrii całego modelu
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
@@ -91,7 +115,6 @@ export default function TV({ onComplete }) {
         scene.add(model);
         model.updateMatrixWorld(true);
 
-        // Szukanie mesha 'plane' (ekran telewizora)
         let targetMesh = null;
         model.traverse((child) => {
           if (child.isMesh) {
@@ -109,36 +132,28 @@ export default function TV({ onComplete }) {
         }
 
         if (targetMesh && contactScreenRef.current) {
-          console.log("🎯 [TV.glb] Znaleziono mesh ekranu:", targetMesh.name);
-
           const targetBox = new THREE.Box3().setFromObject(targetMesh);
           const targetSize = targetBox.getSize(new THREE.Vector3());
           const targetCenter = targetBox.getCenter(new THREE.Vector3());
 
-          const physicalWidth = targetSize.x;
-          const physicalHeight = targetSize.y;
-
-          const htmlElement = contactScreenRef.current;
-          const htmlWidth = htmlElement.offsetWidth || 800;
-          const htmlHeight = htmlElement.offsetHeight || 600;
-
-          const scaleX = physicalWidth / htmlWidth;
-          const scaleY = physicalHeight / htmlHeight;
+          targetSizeRef = targetSize;
 
           const worldQuaternion = new THREE.Quaternion();
           targetMesh.getWorldQuaternion(worldQuaternion);
 
-          // Tworzenie obiektu CSS3D
-          const cssObject = new CSS3DObject(htmlElement);
-          cssObject.scale.set(scaleX, scaleY, 1);
+          const cssObject = new CSS3DObject(contactScreenRef.current);
+          cssObjectRef = cssObject;
+
+          updateCSSObjectScale();
+
           cssObject.position.copy(targetCenter);
           cssObject.quaternion.copy(worldQuaternion);
 
           cssObject.rotateX(Math.PI / 2);
           cssObject.rotateY(Math.PI);
           cssObject.rotateZ(Math.PI);
-
           cssObject.translateZ(0.002);
+
           cssScene.add(cssObject);
 
           // WebGL Blocker
@@ -149,7 +164,7 @@ export default function TV({ onComplete }) {
             colorWrite: false,
           });
 
-          const blockerGeometry = new THREE.PlaneGeometry(physicalWidth, physicalHeight);
+          const blockerGeometry = new THREE.PlaneGeometry(targetSize.x, targetSize.y);
           const blockerMesh = new THREE.Mesh(blockerGeometry, blockerMaterial);
 
           blockerMesh.position.copy(targetCenter);
@@ -160,10 +175,6 @@ export default function TV({ onComplete }) {
           blockerMesh.rotateZ(Math.PI);
 
           scene.add(blockerMesh);
-
-          console.log("✅ [TV.jsx] Pomyślnie zmapowano HTML na ekran.");
-        } else {
-          console.warn("⚠️ Nie znaleziono mesha ekranu w TV.glb.");
         }
       },
       undefined,
@@ -172,7 +183,6 @@ export default function TV({ onComplete }) {
       }
     );
 
-    // Pętla renderowania
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       controls.update();
@@ -185,13 +195,16 @@ export default function TV({ onComplete }) {
       if (!wrapperRef.current) return;
       const newWidth = wrapperRef.current.clientWidth;
       const newHeight = wrapperRef.current.clientHeight;
+      if (newWidth === 0 || newHeight === 0) return;
 
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
 
       renderer.setSize(newWidth, newHeight);
       cssRenderer.setSize(newWidth, newHeight);
+      updateCSSObjectScale();
     };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -201,6 +214,10 @@ export default function TV({ onComplete }) {
       controls.dispose();
       renderer.dispose();
 
+      if (cssObjectRef) {
+        cssScene.remove(cssObjectRef);
+      }
+
       if (renderer.domElement.parentNode) {
         renderer.domElement.parentNode.removeChild(renderer.domElement);
       }
@@ -208,21 +225,25 @@ export default function TV({ onComplete }) {
         cssRenderer.domElement.parentNode.removeChild(cssRenderer.domElement);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <div className="tv-wrapper" ref={wrapperRef}>
-      {/* Warstwa WebGL */}
-      <div className="tv-webgl-layer" ref={webglLayerRef} />
+    <div
+      key={isMobile ? 'mobile' : 'desktop'}
+      className={`tv-wrapper ${isMobile ? 'tv-wrapper--mobile' : ''}`}
+      ref={wrapperRef}
+    >
+      {/* Warstwy 3D renderowane wyłącznie na desktopie */}
+      {!isMobile && (
+        <>
+          <div className="tv-webgl-layer" ref={webglLayerRef} />
+          <div className="tv-css-layer" ref={cssLayerRef} />
+        </>
+      )}
 
-      {/* Warstwa CSS3D */}
-      <div className="tv-css-layer" ref={cssLayerRef} />
-
-      {/* Formularz HTML */}
+      {/* Okno wyboru wersji (w 3D na desktopie / normalnie wyśrodkowane na mobile) */}
       <div ref={contactScreenRef} className="tv-contact-screen">
         <div className="container">
-
-
           <h2>Wybierz wersję strony</h2>
 
           <div className="tv-form-group">
@@ -237,10 +258,7 @@ export default function TV({ onComplete }) {
             <button
               type="button"
               className="tv-btn tv-btn-full"
-              onClick={() => {
-                console.log("🖱️ Kliknięto: Pełna wersja (TAK)");
-                if (onComplete) onComplete(true);
-              }}
+              onClick={() => onComplete && onComplete(true)}
             >
               <span>Wersja Pełna (Animowana)</span>
             </button>
@@ -248,10 +266,7 @@ export default function TV({ onComplete }) {
             <button
               type="button"
               className="tv-btn tv-btn-clean"
-              onClick={() => {
-                console.log("🖱️ Kliknięto: Wersja Czysta (NIE)");
-                if (onComplete) onComplete(false);
-              }}
+              onClick={() => onComplete && onComplete(false)}
             >
               <span>Wersja Czysta (Zalecana / Clean)</span>
             </button>

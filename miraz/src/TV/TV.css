@@ -1,9 +1,21 @@
 .tv-wrapper {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
   background-color: #050505;
+}
+
+/* Tryb mobilny bez modelu 3D – centrowanie okna */
+.tv-wrapper--mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: radial-gradient(circle at center, #0f172a 0%, #050505 100%);
 }
 
 .tv-webgl-layer {
@@ -14,6 +26,7 @@
   left: 0;
   z-index: 1;
 }
+
 .container {
   width: 100%;
   height: 100%;
@@ -21,6 +34,7 @@
   z-index: 2;
   pointer-events: auto;
 }
+
 .tv-css-layer {
   width: 100%;
   height: 100%;
@@ -31,10 +45,10 @@
   pointer-events: none;
 }
 
-/* Zmniejszone okno z wielowarstwowymi ramkami w odcieniach niebieskiego */
+/* Okno z wielowarstwowymi ramkami w odcieniach niebieskiego */
 .tv-contact-screen {
   position: relative;
-  width: 520px; /* Zmniejszona szerokość okna */
+  width: 520px;
   background: #0f172a;
   border: 2px solid #1e40af;
   padding: 0;
@@ -42,6 +56,7 @@
   font-family: 'Courier New', Courier, monospace, 'Segoe UI', sans-serif;
   pointer-events: auto;
   box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.7);
+  z-index: 3;
 }
 
 /* Pierwszy dodatkowy border (::before) – środkowa ramka */
@@ -83,7 +98,7 @@
   text-transform: uppercase;
 }
 
-/* Wnętrze z efektem starego ekranu CRT (scanlines) i mniejszymi odstępami */
+/* Wnętrze z efektem starego ekranu CRT (scanlines) */
 .tv-form-group {
   padding: 20px 24px;
   background: #f8fafc;
@@ -100,7 +115,7 @@
 
 .tv-description {
   color: #0f172a;
-  font-size: 13px; /* Nieco mniejsza, czytelna czcionka dopasowana do mniejszego kontenera */
+  font-size: 13px;
   line-height: 1.5;
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -129,6 +144,7 @@
   transition: all 0.05s ease;
   text-align: center;
   box-shadow: 2px 2px 0px #1e40af;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tv-btn:active {
@@ -154,4 +170,40 @@
 
 .tv-btn-clean:hover {
   background: #1d4ed8;
+}
+
+/* --- STYLE DLA EKRANÓW MOBILNYCH (<= 768px) --- */
+@media (max-width: 768px) {
+  .tv-contact-screen {
+    width: 100%;
+    max-width: 440px;
+    /* Uwzględnienie zewnętrznych ramek ::before i ::after (-10px), aby nie wychodziły poza ekran */
+    margin: 10px;
+  }
+
+  .tv-contact-screen h2 {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .tv-form-group {
+    padding: 20px 18px;
+  }
+
+  .tv-description {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .tv-buttons-container {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 18px 20px 18px;
+  }
+
+  .tv-btn {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
 }

@@ -1,0 +1,870 @@
+/* --- ZMIENNE KOLORYSTYCZNE Z TWOJEJ PALETY (DARK MODE) --- */
+:root {
+  --color-mint-light: #80CFBC;
+  --color-teal: #2F9E95;
+  --color-pink-bg: #25282A;        /* Ciemniejszy odcień tła dla wyróżnienia sekcji */
+  --color-pink-accent: #FFC2DA;
+  --color-coral: #F77979;
+  --color-dark: #F3F4F6;           /* Jasny tekst główny (zamiast ciemnego, dla kontrastu) */
+  --color-bg-soft: #1E2021;        /* TWÓJ KOLOR Z OBRAZKA */
+  --color-card-bg: #272A2B;        /* Nieco jaśniejszy grafit dla kart, żeby odcinały się od tła */
+  --color-gray-text: #A0A8A8;      /* Jasnoszary tekst pomocniczy */
+}
+
+/* --- BAZA I RESET --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--color-bg-soft);
+  color: var(--color-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- HEADER --- */
+.miraz-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(30, 32, 33, 0.92); /* Półprzezroczysty #1E2021 */
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(128, 207, 188, 0.15);
+}
+
+.miraz-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.miraz-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.miraz-logo svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-teal);
+  transition: transform 0.2s;
+}
+
+.miraz-logo:hover svg {
+  transform: scale(1.05);
+}
+
+.miraz-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.miraz-logo-title {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-size: 1.125rem;
+  color: var(--color-dark);
+  line-height: 1;
+}
+
+.miraz-logo-subtitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-teal);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.miraz-nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-gray-text);
+}
+
+.miraz-nav a:hover {
+  color: var(--color-teal);
+}
+
+@media (min-width: 768px) {
+  .miraz-nav {
+    display: flex;
+  }
+}
+
+/* --- HERO SECTION --- */
+.miraz-hero {
+  position: relative;
+  padding: 80px 24px 120px;
+  background: linear-gradient(180deg, var(--color-bg-soft) 0%, #242628 100%);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 194, 218, 0.15);
+}
+
+.miraz-hero-glow {
+  position: absolute;
+  right: -96px;
+  top: 48px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(128, 207, 188, 0.15) 0%, rgba(255, 194, 218, 0.12) 50%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.miraz-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.miraz-hero-inner {
+  max-width: 650px;
+}
+
+.miraz-hero-pre {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--color-gray-text);
+  margin-bottom: 4px;
+}
+
+.miraz-hero h1 {
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-dark);
+  margin-bottom: 24px;
+  line-height: 1.08;
+}
+
+.miraz-hero h1 span {
+  color: var(--color-coral);
+}
+
+.miraz-hero p {
+  font-size: 1.125rem;
+  color: var(--color-gray-text);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.miraz-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.miraz-btn-primary {
+  padding: 14px 28px;
+  background-color: var(--color-teal);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 12px rgba(47, 158, 149, 0.25);
+}
+
+.miraz-btn-primary:hover {
+  background-color: #25827a;
+}
+
+.miraz-link-subtle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-text);
+  border-bottom: 1px solid var(--color-mint-light);
+  padding-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.miraz-link-subtle:hover {
+  color: var(--color-teal);
+}
+
+.miraz-hero-badge-wrap {
+  margin-top: 64px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.miraz-hero-badge {
+  background-color: #141516;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 14px;
+  letter-spacing: 0.025em;
+}
+
+/* --- SECTIONS COMMON --- */
+.miraz-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.miraz-section {
+  padding: 96px 0;
+}
+
+.miraz-section-header {
+  max-width: 650px;
+  margin-bottom: 56px;
+}
+
+.miraz-section-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-teal);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.miraz-section-title {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-dark);
+  margin-bottom: 16px;
+}
+
+.miraz-section-desc {
+  font-size: 1rem;
+  color: var(--color-gray-text);
+  line-height: 1.7;
+}
+
+/* --- SECTION 01: O MIRAŻU --- */
+.miraz-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 56px;
+}
+
+@media (min-width: 768px) {
+  .miraz-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .miraz-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.miraz-card-feature {
+  background-color: var(--color-card-bg);
+  padding: 32px 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 207, 188, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.miraz-card-feature svg {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 20px;
+}
+
+.miraz-card-feature.teal svg { color: var(--color-teal); }
+.miraz-card-feature.coral svg { color: var(--color-coral); }
+
+.miraz-card-feature h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 10px;
+}
+
+.miraz-card-feature p {
+  font-size: 0.875rem;
+  color: var(--color-gray-text);
+  line-height: 1.6;
+}
+
+/* --- SECTION 02: DLA DOROSŁYCH --- */
+.miraz-bg-pink {
+  background-color: var(--color-pink-bg);
+  border-top: 1px solid rgba(255, 194, 218, 0.15);
+  border-bottom: 1px solid rgba(255, 194, 218, 0.15);
+}
+
+.miraz-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 48px;
+}
+
+@media (min-width: 768px) {
+  .miraz-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.miraz-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 16px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 194, 218, 0.15);
+}
+
+.miraz-list-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.miraz-list-item p {
+  font-size: 0.875rem;
+  color: #D1D5DB;
+  line-height: 1.6;
+}
+
+.miraz-quote-box {
+  margin-top: 56px;
+  padding: 32px;
+  background-color: var(--color-card-bg);
+  border: 1px solid rgba(255, 194, 218, 0.2);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+  .miraz-quote-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.miraz-quote-box p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  max-width: 700px;
+}
+
+.miraz-btn-dark {
+  padding: 12px 24px;
+  background-color: var(--color-coral);
+  color: #1E2021;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.miraz-btn-dark:hover {
+  background-color: var(--color-mint-light);
+}
+
+/* --- SECTION 03: DLA DZIECI & MOŻLIWOŚCI --- */
+.miraz-split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .miraz-split-layout {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.miraz-grid-children {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+@media (min-width: 640px) {
+  .miraz-grid-children {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.miraz-child-card {
+  background-color: var(--color-card-bg);
+  padding: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 207, 188, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.miraz-child-card h3 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 8px;
+}
+
+.miraz-child-card p {
+  font-size: 0.875rem;
+  color: var(--color-gray-text);
+  line-height: 1.6;
+}
+
+.miraz-floating-card {
+  background-color: var(--color-card-bg);
+  padding: 40px;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 207, 188, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.miraz-floating-card-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.miraz-floating-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-mint-light);
+  margin: 0 auto 12px;
+}
+
+.miraz-floating-card-header h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.miraz-floating-card-header p {
+  font-size: 0.75rem;
+  color: var(--color-gray-text);
+  margin-top: 4px;
+}
+
+.miraz-service-box {
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 2px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 194, 218, 0.15);
+}
+
+.miraz-service-box.teal { border-left: 4px solid var(--color-teal); }
+.miraz-service-box.coral { border-left: 4px solid var(--color-coral); }
+
+.miraz-service-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.miraz-service-top span.title {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-dark);
+}
+
+.miraz-service-top span.badge-teal {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-mint-light);
+}
+
+.miraz-service-top span.badge-coral {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-coral);
+}
+
+.miraz-service-box p {
+  font-size: 0.75rem;
+  color: var(--color-gray-text);
+  line-height: 1.5;
+}
+
+.miraz-upcoming {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(128, 207, 188, 0.15);
+  text-align: center;
+}
+
+.miraz-upcoming span {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-text);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.miraz-upcoming p {
+  font-size: 0.75rem;
+  color: var(--color-gray-text);
+}
+
+/* --- SECTION 04: O MNIE --- */
+.miraz-bg-mint {
+  background-color: #232727;
+  border-top: 1px solid rgba(128, 207, 188, 0.15);
+  border-bottom: 1px solid rgba(128, 207, 188, 0.15);
+}
+
+.miraz-about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 1024px) {
+  .miraz-about-grid {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+.miraz-about-left blockquote {
+  font-size: 1.125rem;
+  font-style: italic;
+  color: #D1D5DB;
+  border-left: 2px solid var(--color-teal);
+  padding-left: 16px;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+
+.miraz-about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  font-size: 0.875rem;
+  color: #D1D5DB;
+  line-height: 1.7;
+}
+
+.miraz-about-card {
+  background-color: var(--color-card-bg);
+  padding: 32px;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 207, 188, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.miraz-about-right h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 8px;
+}
+
+.miraz-hospitals {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+@media (min-width: 640px) {
+  .miraz-hospitals {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.miraz-hospital-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--color-gray-text);
+}
+
+.miraz-hospital-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-teal);
+  flex-shrink: 0;
+}
+
+/* --- SECTION 05: KONTAKT --- */
+.miraz-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .miraz-contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.miraz-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.miraz-contact-item span.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-text);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.miraz-contact-item a, .miraz-contact-item span.value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.miraz-contact-item a.email {
+  color: var(--color-mint-light);
+}
+
+.miraz-form-card {
+  background-color: var(--color-card-bg);
+  padding: 40px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 194, 218, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  max-width: 450px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .miraz-form-card {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+.miraz-form-card svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-teal);
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.miraz-form-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.miraz-form-header h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.miraz-form-header p {
+  font-size: 0.75rem;
+  color: var(--color-gray-text);
+  margin-top: 4px;
+}
+
+.miraz-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.miraz-input, .miraz-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  background-color: #1E2021;
+  color: var(--color-dark);
+  border: 1px solid rgba(255, 194, 218, 0.25);
+  border-radius: 2px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.miraz-input:focus, .miraz-textarea:focus {
+  border-color: var(--color-teal);
+}
+
+.miraz-textarea {
+  resize: none;
+  height: 90px;
+}
+
+/* --- FOOTER --- */
+.miraz-footer {
+  padding: 64px 24px;
+  border-top: 1px solid rgba(128, 207, 188, 0.15);
+  background-color: var(--color-bg-soft);
+}
+
+.miraz-footer-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(128, 207, 188, 0.15);
+}
+
+@media (min-width: 768px) {
+  .miraz-footer-top {
+    grid-template-columns: 4fr 8fr;
+  }
+}
+
+.miraz-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.miraz-footer-brand svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-teal);
+}
+
+.miraz-footer-brand span {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-dark);
+}
+
+.miraz-footer-brand-sub {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-text);
+}
+
+.miraz-footer-quote {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-gray-text);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.miraz-footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .miraz-footer-links-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.miraz-footer-col h4 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+}
+
+.miraz-footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.miraz-footer-col ul li a, .miraz-footer-col ul li {
+  color: var(--color-gray-text);
+  transition: color 0.2s;
+}
+
+.miraz-footer-col ul li a:hover {
+  color: var(--color-teal);
+}
+
+.miraz-footer-bottom {
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--color-gray-text);
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .miraz-footer-bottom {
+    flex-direction: row;
+  }
+}
+
+.miraz-footer-bottom a {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-dark);
+  transition: color 0.2s;
+}
+
+.miraz-footer-bottom a:hover {
+  color: var(--color-teal);
+}

@@ -27,7 +27,7 @@ const SECTIONS = [
 
 const HERO_VIDEOS = [
   '/background1.mp4',
-  '/background2.mp4',
+  '/background3.mp4',
   '/background4.mp4',
   '/background5.mp4',
   '/background6.mp4',
