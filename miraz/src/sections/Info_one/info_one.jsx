@@ -26,13 +26,13 @@ const SECTIONS = [
 ]
 
 const HERO_VIDEOS = [
-  '/background1.mp4',
-  '/background3.mp4',
-  '/background4.mp4',
-  '/background5.mp4',
-  '/background6.mp4',
-  '/background7.mp4',
-  '/background8.mp4',
+  `${import.meta.env.BASE_URL}background1.mp4`,
+  `${import.meta.env.BASE_URL}background3.mp4`,
+  `${import.meta.env.BASE_URL}background4.mp4`,
+  `${import.meta.env.BASE_URL}background5.mp4`,
+  `${import.meta.env.BASE_URL}background6.mp4`,
+  `${import.meta.env.BASE_URL}background7.mp4`,
+  `${import.meta.env.BASE_URL}background8.mp4`,
 ]
 
 export default function InfoOne() {

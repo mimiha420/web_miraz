@@ -97,7 +97,7 @@ export default function TV({ onComplete }) {
     // --- ŁADOWANIE MODELU TV.glb ---
     const loader = new GLTFLoader();
     loader.load(
-      '/TV.glb',
+      `${import.meta.env.BASE_URL}TV.glb`,
       (gltf) => {
         if (disposed) return;
         const model = gltf.scene;

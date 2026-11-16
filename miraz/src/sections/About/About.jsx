@@ -39,7 +39,7 @@ const About = () => {
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
-      "/city.glb",
+      `${import.meta.env.BASE_URL}city.glb`,
       (gltf) => {
         const object = gltf.scene;
         object.scale.setScalar(0.002);

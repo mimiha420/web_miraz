@@ -140,7 +140,7 @@ const LandingPage = () => {
     const gltfLoader = new GLTFLoader();
 
     gltfLoader.load(
-      "/lilia.glb",
+      `${import.meta.env.BASE_URL}lilia.glb`,
       (gltf) => {
         const baseLily = gltf.scene;
 
