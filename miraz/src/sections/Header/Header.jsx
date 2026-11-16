@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { href: '#help', label: 'DLA DOROSŁYCH' },
   { href: '#info-kids', label: 'DLA DZIECI' },
   { href: '#contacter', label: 'KONTAKT' },
-  { href: '#o-mnie', label: 'O MNIE' },
+  { href: '#o-mnie', label: 'O NAS' },
  
 ];
 

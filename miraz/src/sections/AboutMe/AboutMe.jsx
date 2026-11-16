@@ -12,14 +12,14 @@ const AboutMe = () => {
             <div className="about-me__avatar-placeholder">
               <span>JS</span>
             </div>
-            <div className="about-me__badge">05 / O mnie</div>
+            <div className="about-me__badge">05 / O nas</div>
           </div>
 
           <h2 className="about-me__name">Julia Sabura</h2>
-          <p className="about-me__role">Psycholożka</p>
+          <p className="about-me__role">PSYCHOLOG</p>
 
           <blockquote className="about-me__quote">
-            „Towarzyszy mi ciekawość Twoich doświadczeń, potrzeb i sposobu przeżywania rzeczywistości.”
+            „Zależy mi na stworzeniu bezpiecznej przestrzeni, w której można przyjrzeć się swojemu funkcjonowaniu, schematom i doświadczeniom bez oceniania, z ciekawością i wyrozumiałością, we własnym tempie.”
           </blockquote>
         </div>
 
@@ -28,37 +28,44 @@ const AboutMe = () => {
           <div className="about-me__block">
             <h3 className="about-me__section-title">O moim podejściu</h3>
             <p className="about-me__text">
-              W pracy ważne jest dla mnie spotkanie z drugim człowiekiem i próba spojrzenia na świat z jego perspektywy. 
-              Towarzyszą mi otwartość i ciekawość tego, jak dana osoba przeżywa rzeczywistość oraz jakie strategie wypracowała, 
-              by radzić sobie z trudnościami.
+              W swojej pracy stawiam nacisk na samo spotkanie z drugim człowiekiem i próbuję spojrzeć na świat z jego perspektywy. 
+              Towarzyszą mi w tym otwartość i ciekawość jego doświadczeń, potrzeb, sposobu przeżywania rzeczywistości oraz strategii, 
+              które wypracował, by radzić sobie z trudnościami.
             </p>
             <p className="about-me__text">
-              Bliskie jest mi łączenie wiedzy psychologicznej z kreatywnością i poszukiwanie różnych sposobów lepszego rozumienia siebie. 
-              Organizowałam warsztaty mindfulness podczas Pejzaż Festiwalu i tworzę krótkie psychoedukacyjne treści internetowe.
+              Chciałabym towarzyszyć osobom doświadczającym różnego rodzaju trudności i kryzysów — zarówno w lepszym rozumieniu siebie 
+              i swoich emocji, odkrywaniu własnych potrzeb, stawianiu granic czy odnajdywaniu się w relacjach, jak i w budowaniu 
+              poczucia własnej wartości, rozwijaniu bardziej wspierającej relacji z samym sobą oraz poszukiwaniu własnego miejsca w otaczającej rzeczywistości.
             </p>
-          </div>
+            <p className="about-me__text">
+              Bliskie jest mi łączenie wiedzy psychologicznej z kreatywnością oraz poszukiwanie różnych sposobów na lepsze rozumienie siebie 
+              i własnych doświadczeń. Organizowałam warsztaty mindfulness podczas Pejzaż Festiwalu, a także tworzę internetowe treści 
+              psychoedukacyjne w formie krótkich filmów.
+            </p>
+          </div> 
 
           <div className="about-me__block about-me__block--highlight">
             <h3 className="about-me__section-title">Praca z osobami neuroatypowymi</h3>
             <p className="about-me__text">
-              Szczególnie chciałabym pracować z osobami neuroatypowymi, które odkrywają ten aspekt swojego życia, chcą lepiej 
-              zrozumieć własne funkcjonowanie, rozpoznawać potrzeby i szukać rozwiązań dopasowanych do siebie. 
+              Szczególnie bliskim mi obszarem jest praca z osobami neuroatypowymi, dopiero odkrywającymi ten aspekt siebie, 
+              które chcą lepiej zrozumieć swój sposób funkcjonowania, rozpoznawać własne potrzeby i szukać rozwiązań dopasowanych 
+              do siebie, zamiast próbować za wszelką cenę wpisywać się w powszechnie przyjęte schematy.
             </p>
             <p className="about-me__text">
-              Diagnozę postrzegam nie jako ostateczne wyjaśnienie, lecz jako początek drogi do uporządkowania 
-              doświadczeń i budowania codzienności bardziej zgodnej z własnymi potrzebami.
+              Diagnozę postrzegam nie jako ostateczne wyjaśnienie wszystkich trudności, ale jako początek drogi do uporządkowania 
+              swoich doświadczeń, zrozumienia trudności i budowania codzienności bardziej zgodnej ze swoimi potrzebami.
             </p>
           </div>
 
           <div className="about-me__block">
             <h3 className="about-me__section-title">Wykształcenie i Doświadczenie</h3>
             <p className="about-me__text">
-              Jestem absolwentką praktycznych studiów magisterskich ze specjalizacją kliniczną z psychoterapią na Uniwersytecie 
-              Papieskim Jana Pawła II w Krakowie.
+              Jestem absolwentką studiów magisterskich o profilu praktycznym i specjalizacji klinicznej z psychoterapią na Uniwersytecie 
+              Papieskim Jana Pawła II w Krakowie. Doświadczenie zdobywałam w następujących miejscach:
             </p>
             <ul className="about-me__list">
               <li>Poradnie psychologiczno-pedagogiczne (organizacja zajęć TUS)</li>
-              <li>Poradnia psychologiczna dla osób uzależnionych i współuzależnionych (prowadzenie grup terapeutycznych)</li>
+              <li>Poradnia psychologiczna dla osób uzależnionych i współuzależnionych (współprowadzenie grup terapeutycznych)</li>
               <li>Szpital Specjalistyczny im. Jana Pawła II w Krakowie</li>
               <li>Szpital Kliniczny im. dr. Józefa Babińskiego w Krakowie</li>
             </ul>
