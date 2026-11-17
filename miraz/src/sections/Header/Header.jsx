@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { href: '#info-one', label: 'O MIRAŻU' },
   { href: '#help', label: 'DLA DOROSŁYCH' },
   { href: '#info-kids', label: 'DLA DZIECI' },
-  { href: '#contacter', label: 'KONTAKT' },
+  { href: '#kontakt', label: 'KONTAKT' },
   { href: '#o-mnie', label: 'O NAS' },
  
 ];

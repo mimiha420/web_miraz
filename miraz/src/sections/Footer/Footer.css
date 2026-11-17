@@ -86,16 +86,7 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-.contact-icon {
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-}
+
 
 .contact-details {
   display: flex;
@@ -110,14 +101,7 @@
   color: #888888;
 }
 
-.contact-link,
-.contact-text-static {
-  font-size: 1.05rem;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-  margin: 0;
-}
+
 
 .contact-link:hover {
   text-decoration: underline;
@@ -166,4 +150,25 @@
   background: #ffffff;
   color: #121212;
   border-color: #ffffff;
+}
+.contact-icon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0; /* Zapobiega spłaszczeniu ikony przy długim tekście */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.contact-link,
+.contact-text-static {
+  font-size: 1.05rem;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0;
+  overflow-wrap: anywhere; /* Bezpieczne zawijanie długiego maila na małych ekranach */
 }

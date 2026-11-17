@@ -39,8 +39,11 @@ export const Footer = () => {
               <span className="contact-icon">✉</span>
               <div className="contact-details">
                 <span className="contact-label">Napisz e-mail</span>
-                <a href="mailto:kontakt@pracowniamiraz.pl" className="contact-link">
-                  kontakt@pracowniamiraz.pl
+                <a 
+                  href="mailto:badzmywkontakcie.miraz@gmail.com" 
+                  className="contact-link"
+                >
+                  badzmywkontakcie.miraz@gmail.com
                 </a>
               </div>
             </div>
@@ -49,8 +52,11 @@ export const Footer = () => {
               <span className="contact-icon">📞</span>
               <div className="contact-details">
                 <span className="contact-label">Zadzwoń lub napisz</span>
-                <a href="tel:+48000000000" className="contact-link">
-                  +48 000 000 000
+                <a 
+                  href="tel:+48795249911" 
+                  className="contact-link"
+                >
+                  +48 795 249 911
                 </a>
               </div>
             </div>

@@ -79,6 +79,47 @@ const LandingPage = () => {
     camera.position.set(0, 3.2, 4.5);
     camera.lookAt(0, 0, 0);
 
+    // --- ŁADOWANIE LILII ---
+    const lilies = [];
+    const gltfLoader = new GLTFLoader();
+
+    let lilyTopRightItem = null;
+    let lilyBottomLeftItem = null;
+    let baseScale = 1;
+
+    const updateResponsiveLayout = (width) => {
+      if (!lilyTopRightItem || !lilyBottomLeftItem) return;
+
+      if (width <= 1024) {
+        // Ekran <= 1024px: Jedna lilia na środku, powiększona o 20%, wyżej nad wodą
+        lilyTopRightItem.mesh.visible = true;
+        lilyTopRightItem.mesh.scale.setScalar(baseScale * 1.2);
+        lilyTopRightItem.mesh.position.set(0, 0.45, -1.5);
+        // Aktualizujemy pozycje do obliczania fal
+        lilyTopRightItem.offsetX = 0;
+        lilyTopRightItem.offsetZ = -1.5;
+        lilyTopRightItem.baseY = 0.45;
+
+        // Druga lilia ukryta
+        lilyBottomLeftItem.mesh.visible = false;
+      } else {
+        // Ekran > 1024px (Desktop): Dwie lilie w układzie standardowym
+        lilyTopRightItem.mesh.visible = true;
+        lilyTopRightItem.mesh.scale.setScalar(baseScale);
+        lilyTopRightItem.mesh.position.set(3, 0.25, -0.9);
+        lilyTopRightItem.offsetX = 3;
+        lilyTopRightItem.offsetZ = -0.9;
+        lilyTopRightItem.baseY = 0.25;
+
+        lilyBottomLeftItem.mesh.visible = true;
+        lilyBottomLeftItem.mesh.scale.setScalar(baseScale * 1.15);
+        lilyBottomLeftItem.mesh.position.set(-2, 0.75, 1.1);
+        lilyBottomLeftItem.offsetX = -2;
+        lilyBottomLeftItem.offsetZ = 1.1;
+        lilyBottomLeftItem.baseY = 0.75;
+      }
+    };
+
     // Resize
     const handleResize = () => {
       const { w, h } = getSize();
@@ -86,6 +127,7 @@ const LandingPage = () => {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       composer.setSize(w, h);
+      updateResponsiveLayout(w);
     };
     window.addEventListener("resize", handleResize);
 
@@ -99,7 +141,7 @@ const LandingPage = () => {
     scene.environment = hdrEquirect;
     scene.fog = new THREE.FogExp2(waterFogColor, 0.06);
 
-    // Oświetlenie sceny (delikatne, chłodniejsze światło pasujące do granatu)
+    // Oświetlenie sceny
     const ambientLight = new THREE.AmbientLight(0x88ccff, 0.7);
     scene.add(ambientLight);
 
@@ -107,15 +149,15 @@ const LandingPage = () => {
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
 
-    // --- TAFLA WODY (Granatowa, organicznie falująca siatka) ---
+    // --- TAFLA WODY ---
     const waterGeometry = new THREE.PlaneGeometry(40, 40, 160, 160);
     waterGeometry.rotateX(-Math.PI / 2);
 
     const waterMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x1e293b,        // Bazowy kolor granatowej wody
-      emissive: 0x09101d,     // Głęboka poświata od spodu
+      color: 0x1e293b,
+      emissive: 0x09101d,
       emissiveIntensity: 0.3,
-      roughness: 0.2,         // Delikatny połysk dla naturalnego wyglądu
+      roughness: 0.2,
       metalness: 0.1,
       reflectivity: 0.7,
       clearcoat: 0.6,
@@ -128,16 +170,11 @@ const LandingPage = () => {
     waterPlane.rotation.y = Math.PI / 8;
     scene.add(waterPlane);
 
-    // Zapisujemy bazowe pozycje wierzchołków wody
     const waterPosAttr = waterGeometry.attributes.position;
     const baseWaterY = new Float32Array(waterPosAttr.count);
     for (let i = 0; i < waterPosAttr.count; i++) {
       baseWaterY[i] = waterPosAttr.getY(i);
     }
-
-    // --- ŁADOWANIE LILII ---
-    const lilies = [];
-    const gltfLoader = new GLTFLoader();
 
     gltfLoader.load(
       `${import.meta.env.BASE_URL}lilia.glb`,
@@ -150,23 +187,23 @@ const LandingPage = () => {
         baseLily.position.sub(center);
 
         const maxDim = Math.max(size.x, size.y, size.z);
-        const targetScale = 1.1 / (maxDim || 1);
+        baseScale = 1.1 / (maxDim || 1);
 
-        // Lilia 1 (prawa góra)
-        const lilyTopRight = baseLily.clone();
-        lilyTopRight.scale.setScalar(targetScale);
-        lilyTopRight.position.set(3, 0.25, -0.9);
-        lilyTopRight.rotation.y = Math.PI * 0.2;
-        scene.add(lilyTopRight);
-        lilies.push({ mesh: lilyTopRight, baseY: 0.25, offsetX: 3, offsetZ: -0.9 });
+        // Lilia 1
+        const lily1Mesh = baseLily.clone();
+        lily1Mesh.rotation.y = Math.PI * 0.2;
+        scene.add(lily1Mesh);
+        lilyTopRightItem = { mesh: lily1Mesh, baseY: 0.25, offsetX: 3, offsetZ: -0.9 };
+        lilies.push(lilyTopRightItem);
 
-        // Lilia 2 (lewy dół)
-        const lilyBottomLeft = baseLily.clone();
-        lilyBottomLeft.scale.setScalar(targetScale * 1.15);
-        lilyBottomLeft.position.set(-2, 0.75, 1.1);
-        lilyBottomLeft.rotation.y = -Math.PI * 0.35;
-        scene.add(lilyBottomLeft);
-        lilies.push({ mesh: lilyBottomLeft, baseY: 0.75, offsetX: -2, offsetZ: 1.1 });
+        // Lilia 2
+        const lily2Mesh = baseLily.clone();
+        lily2Mesh.rotation.y = -Math.PI * 0.35;
+        scene.add(lily2Mesh);
+        lilyBottomLeftItem = { mesh: lily2Mesh, baseY: 0.75, offsetX: -2, offsetZ: 1.1 };
+        lilies.push(lilyBottomLeftItem);
+
+        updateResponsiveLayout(getSize().w);
       },
       undefined,
       (error) => {
@@ -180,9 +217,7 @@ const LandingPage = () => {
     composer.addPass(renderPass);
 
     const vhsPass = new ShaderPass(VHSShader);
-    // composer.addPass(vhsPass); // Odkomentuj jeśli chcesz VHS
 
-    // Funkcja generująca organiczne, losowe fale bez sztucznego "patentu"
     const computeWaveHeight = (x, z, t) => {
       const f1 = Math.sin(x * 0.8 + z * 0.5 + t * 1.5) * 0.08;
       const f2 = Math.cos(x * 1.2 - z * 1.4 + t * 2.1) * 0.06;
@@ -191,7 +226,6 @@ const LandingPage = () => {
       return f1 + f2 + f3 + f4;
     };
 
-    // Animation Loop
     let animationFrameId;
     const clock = new THREE.Timer();
 
@@ -199,7 +233,6 @@ const LandingPage = () => {
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = (clock.update(), clock.getElapsed());
 
-      // 1. Organiczny ruch fal na granatowej tafli
       for (let i = 0; i < waterPosAttr.count; i++) {
         const x = waterPosAttr.getX(i);
         const z = waterPosAttr.getZ(i);
@@ -208,8 +241,8 @@ const LandingPage = () => {
       waterPosAttr.needsUpdate = true;
       waterGeometry.computeVertexNormals();
 
-      // 2. Kołysanie lilii zsynchronizowane z falami
       lilies.forEach((item) => {
+        if (!item.mesh.visible) return;
         const currentWaveY = computeWaveHeight(item.offsetX, item.offsetZ, elapsedTime);
         item.mesh.position.y = item.baseY + currentWaveY;
 
@@ -239,7 +272,7 @@ const LandingPage = () => {
         width: "100%",
         height: "100vh",
         overflow: "hidden",
-        backgroundColor: "#0f172a", // Spójne tło zapasowe w kolorze ciemnego granatu
+        backgroundColor: "#0f172a",
       }}
     >
       <canvas
@@ -257,7 +290,7 @@ const LandingPage = () => {
         }}
       />
 
-      {/* Napis główny - idealnie widoczny na granatowym tle */}
+      {/* Napis główny */}
       <div
         style={{
           position: "absolute",
@@ -290,7 +323,7 @@ const LandingPage = () => {
         </h1>
         <p style={{ marginTop: "15px", pointerEvents: "auto" }}>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/crosswired.minds?vrfl=MTlpMGpjMXlxZHM5dA%3D%3D&utm_source=qr"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -300,12 +333,12 @@ const LandingPage = () => {
               letterSpacing: "2px",
             }}
           >
-            @julia.sabura
+            @crosswired.minds
           </a>
         </p>
       </div>
 
-      {/* Ikony społecznościowe */}
+      {/* Ikony społecznościowe (Instagram, TikTok, Facebook) */}
       <div
         style={{
           position: "absolute",
@@ -319,7 +352,7 @@ const LandingPage = () => {
       >
         <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/crosswired.minds?vrfl=MTlpMGpjMXlxZHM5dA%3D%3D&utm_source=qr"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "#fff" }}
@@ -327,20 +360,20 @@ const LandingPage = () => {
             <Icon icon="mdi:instagram" width="28" height="28" />
           </a>
           <a
-            href="https://twitter.com"
+            href="https://www.tiktok.com/@crosswired.minds?_r=1&_t=ZN-9BSfrXk6rrS"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "#fff" }}
           >
-            <Icon icon="prime:twitter" width="28" height="28" />
+            <Icon icon="ic:baseline-tiktok" width="28" height="28" />
           </a>
           <a
-            href="https://miroleon.de/links"
+            href="https://www.facebook.com/share/18cZKhnFo5/?mibextid=wwXIfr"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "#fff" }}
           >
-            <Icon icon="ph:globe" width="28" height="28" />
+            <Icon icon="ic:baseline-facebook" width="28" height="28" />
           </a>
         </div>
       </div>
