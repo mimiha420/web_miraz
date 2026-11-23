@@ -9,7 +9,16 @@ const AboutMe = () => {
         {/* Lewa strona / Nagłówek wizualny */}
         <div className="about-me__profile-card">
           <div className="about-me__avatar-wrapper">
-            <div className="about-me__avatar-placeholder">
+            <img 
+              src="/julia1.jpg" 
+              alt="Julia Sabura - Psycholog" 
+              className="about-me__avatar-img"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="about-me__avatar-placeholder" style={{ display: 'none' }}>
               <span>JS</span>
             </div>
             <div className="about-me__badge">05 / O nas</div>
