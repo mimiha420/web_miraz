@@ -250,7 +250,7 @@ export default function TV({ onComplete }) {
             <p className="tv-description">
               Pełna wersja serwisu zawiera liczne animacje oraz efekty wizualne.
               Dla osób ze specyficznymi potrzebami, wrażliwych na ruch lub z niepełnosprawnościami
-              zalecamy wybór <strong>wersji czystej (Clean)</strong> o spokojniejszym interfejsie.
+              zalecamy wybór <strong>wersji czystej</strong> o spokojniejszym interfejsie.
             </p>
           </div>
 
@@ -260,7 +260,7 @@ export default function TV({ onComplete }) {
               className="tv-btn tv-btn-full"
               onClick={() => onComplete && onComplete(true)}
             >
-              <span>Wersja Pełna (Animowana)</span>
+              <span>Wersja Pełna</span>
             </button>
 
             <button
@@ -268,7 +268,7 @@ export default function TV({ onComplete }) {
               className="tv-btn tv-btn-clean"
               onClick={() => onComplete && onComplete(false)}
             >
-              <span>Wersja Czysta (Zalecana / Clean)</span>
+              <span>Wersja Czysta</span>
             </button>
           </div>
         </div>
