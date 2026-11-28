@@ -86,7 +86,17 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-
+.contact-icon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0; /* Zapobiega spłaszczeniu ikony przy długim tekście */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
 
 .contact-details {
   display: flex;
@@ -101,9 +111,52 @@
   color: #888888;
 }
 
-
+.contact-link,
+.contact-text-static {
+  font-size: 1.05rem;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0;
+  overflow-wrap: anywhere; /* Bezpieczne zawijanie długiego maila na małych ekranach */
+}
 
 .contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Dane formalne / adresowe */
+.footer-legal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-legal-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.legal-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888888;
+}
+
+.legal-value,
+.legal-link {
+  font-size: 0.9rem;
+  color: #cccccc;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.legal-link:hover {
+  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -112,7 +165,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
   gap: 1.5rem;
@@ -150,25 +203,4 @@
   background: #ffffff;
   color: #121212;
   border-color: #ffffff;
-}
-.contact-icon {
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0; /* Zapobiega spłaszczeniu ikony przy długim tekście */
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-}
-
-.contact-link,
-.contact-text-static {
-  font-size: 1.05rem;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 500;
-  margin: 0;
-  overflow-wrap: anywhere; /* Bezpieczne zawijanie długiego maila na małych ekranach */
 }
